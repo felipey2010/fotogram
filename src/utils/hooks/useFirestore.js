@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { firestore } from "../firebase-config";
 import { collection, getDocs } from "firebase/firestore";
+// import data from "../data.json";
 
 const useFirestore = collectionName => {
   const [docs, setDocs] = useState([]);
@@ -9,7 +10,6 @@ const useFirestore = collectionName => {
   useEffect(() => {
     const getImages = async () => {
       const data = await getDocs(imageRef);
-      console.log(data);
 
       setDocs(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
 
@@ -26,6 +26,10 @@ const useFirestore = collectionName => {
     };
 
     getImages();
+
+    //Use this for predefined images
+    // setDocs(data);
+
     // eslint-disable-next-line
   }, [collectionName, docs]);
 

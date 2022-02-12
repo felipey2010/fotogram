@@ -21,16 +21,16 @@ export default function useStorage() {
     // Check if file exists
     if (!picture) return;
 
-    async function saveURL(url) {
+    function saveURL(url) {
       const new_image = {
         url: url,
       };
 
-      await addDoc(imageRef, new_image)
-        .then(async res => {
+      addDoc(imageRef, new_image)
+        .then(res => {
           const old_image = doc(imageRef, res.id);
           //Set the id to be the same as the automatically generated id by firebase
-          await updateDoc(old_image, {
+          updateDoc(old_image, {
             id: res.id,
             createdAt: new Date().toISOString(),
           });
@@ -42,7 +42,7 @@ export default function useStorage() {
 
     const storageRef = ref(
       db,
-      `/images/${picture.name + new Date().toISOString()}`
+      `/images/${new Date().toISOString() + "_" + picture.name}`
     );
     const uploadTask = uploadBytesResumable(storageRef, picture);
 
